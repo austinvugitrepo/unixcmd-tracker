@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CommandForm from "./components/commands/CommandForm.jsx";
 import CommandList from "./components/commands/CommandList.jsx";
 
 const initialCommands = [
@@ -8,10 +9,17 @@ const initialCommands = [
 ];
 
 export default function App() {
-  const [commands] = useState(initialCommands);
+  const [commands, setCommands] = useState(initialCommands);
+
+  function addCommand(name, category) {
+    const newCommand = { id: Date.now(), name, category };
+    setCommands((prev) => [...prev, newCommand]);
+  }
+
   return (
     <div className="app">
       <h1>Unix Command Study Tracker</h1>
+      <CommandForm onAdd={addCommand} />
       <CommandList commands={commands} />
     </div>
   );
