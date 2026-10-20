@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Header from "./components/Header.jsx";
+import AboutView from "./components/AboutView.jsx";
 import CommandForm from "./components/commands/CommandForm.jsx";
 import CommandList from "./components/commands/CommandList.jsx";
 
@@ -10,6 +12,7 @@ const initialCommands = [
 
 export default function App() {
   const [commands, setCommands] = useState(initialCommands);
+  const [view, setView] = useState("dashboard");
 
   function addCommand(name, category) {
     const newCommand = { id: Date.now(), name, category };
@@ -18,9 +21,15 @@ export default function App() {
 
   return (
     <div className="app">
-      <h1>Unix Command Study Tracker</h1>
-      <CommandForm onAdd={addCommand} />
-      <CommandList commands={commands} />
+      <Header view={view} onChangeView={setView} />
+      {view === "dashboard" ? (
+        <>
+          <CommandForm onAdd={addCommand} />
+          <CommandList commands={commands} />
+        </>
+      ) : (
+        <AboutView />
+      )}
     </div>
   );
 }
